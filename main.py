@@ -22,10 +22,8 @@ class Sc_helper(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('qt_sc.ui', self)  # Загружаем дизайн
-        self.comboBox.addItems(['Empty'])
         self.pixmap = QPixmap('Graph.png')
         self.Graph_time.setPixmap(self.pixmap)
-        self.ResetGraphButt.clicked.connect(self.__get_grpah)
         # заменить тиблицу на список или типо того...
         # Найти свой ебучий парсер если он жив (молись блять...)
         # Обратите внимание: имя элемента такое же как в QTDesigner
