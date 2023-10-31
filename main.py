@@ -1,6 +1,7 @@
 import http.client
 import json
 import sys
+import datetime
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -24,11 +25,17 @@ class Sc_helper(QMainWindow):
         uic.loadUi('qt_sc.ui', self)  # Загружаем дизайн
         self.pixmap = QPixmap('Graph.png')
         self.Graph_time.setPixmap(self.pixmap)
+
         # заменить тиблицу на список или типо того...
         # Найти свой ебучий парсер если он жив (молись блять...)
         # Обратите внимание: имя элемента такое же как в QTDesigner
+        self.actionReset_graph.triggered.connect(self.__get_grpah)
 
     def __get_grpah(self):
+        lots = self.Input_item.toPlainText()
+        print(lots)
+        x, y = stalc_handler(lots)
+        print(x, y)
         x = np.arange(0, 10, 0.1)
         y = np.sin(x)
         plt.plot(x, y)
@@ -50,6 +57,7 @@ def sortkey(dataset):
 def stalc_handler(lots):
     inputlots_find = lots
     inputlots = lots.lower().title()
+    money, time = 0, ''
     with open('./ru/listing.json', 'r', encoding='UTF-8') as all_list:
         # комнуздим из файла как записан тот или иной итем
         records = json.load(all_list)
@@ -67,12 +75,17 @@ def stalc_handler(lots):
     conn.request("GET", f"/RU/auction/{inputlots_find}/lots?limit=200&additional=true", headers=Auth.headers)
     rowdata = conn.getresponse().read().decode('utf-8')
     data = json.loads(rowdata)
-
-    print(data['lots'])
     data = data['lots']
 
     data = sorted(data, key=sortkey)
-    return data
+    print(data)
+    money_lots = []
+    date_lots = []
+    for i in data:
+        date_lots.append(i['endTime'])
+        money_lots.append(i['buyoutPrice'])
+    print(money_lots, date_lots, sep='\n')
+    return 0, 0
 
 
 if __name__ == '__main__':
