@@ -15,8 +15,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
-    <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(128, 0, 255, 255), stop:1 rgba(255, 124, 122, 255));
-</string>
+    <string notr="true"/>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
@@ -38,20 +37,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QTableView" name="Auc_table">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>300</width>
-          <height>500</height>
-         </size>
-        </property>
-       </widget>
+       <widget class="QTableWidget" name="aucList"/>
       </item>
      </layout>
     </item>

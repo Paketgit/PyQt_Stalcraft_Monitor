@@ -25,24 +25,27 @@ class Sc_helper(QMainWindow):
         uic.loadUi('qt_sc.ui', self)  # Загружаем дизайн
         self.pixmap = QPixmap('Graph.png')
         self.Graph_time.setPixmap(self.pixmap)
-
-        # заменить тиблицу на список или типо того...
-        # Найти свой ебучий парсер если он жив (молись блять...)
-        # Обратите внимание: имя элемента такое же как в QTDesigner
         self.actionReset_graph.triggered.connect(self.__get_grpah)
 
     def __get_grpah(self):
         lots = self.Input_item.toPlainText()
         print(lots)
         x, y = stalc_handler(lots)
+        self.aucList.setRowCount(1)
+        self.aucList.setColumnCount(1000)
+        print('1')
+        try:
+            for i in range(len(x)):
+                self.aucList.setItem(i, 1, x[i])
+        except Exception:
+            print('DOLBAEB')
         print(x, y)
-        x = np.arange(0, 10, 0.1)
-        y = np.sin(x)
+        print(x)
         plt.plot(x, y)
         plt.savefig('Graph')
         img = Image.open('Graph.png')
         # изменяем размер
-        new_image = img.resize((405, 300))
+        new_image = img.resize((1000, 800))
         # сохранение картинки
         new_image.save('./Graph.png')
         self.pixmap = QPixmap('Graph.png')
@@ -55,6 +58,7 @@ def sortkey(dataset):
 
 
 def stalc_handler(lots):
+    print('Я в stalc_handler')
     inputlots_find = lots
     inputlots = lots.lower().title()
     money, time = 0, ''
@@ -71,12 +75,15 @@ def stalc_handler(lots):
         except KeyError:
             print('eblan')
             pass
-
+    print('Я прошёл файл')
     conn.request("GET", f"/RU/auction/{inputlots_find}/lots?limit=200&additional=true", headers=Auth.headers)
+    print('conn ok')
     rowdata = conn.getresponse().read().decode('utf-8')
+    print('rowdata ok')
     data = json.loads(rowdata)
+    print('data ok')
     data = data['lots']
-
+    print("Я прошёл конн и получение данныых")
     data = sorted(data, key=sortkey)
     print(data)
     money_lots = []
@@ -85,7 +92,8 @@ def stalc_handler(lots):
         date_lots.append(i['endTime'])
         money_lots.append(i['buyoutPrice'])
     print(money_lots, date_lots, sep='\n')
-    return 0, 0
+    print('Я вышел')
+    return date_lots, money_lots
 
 
 if __name__ == '__main__':
