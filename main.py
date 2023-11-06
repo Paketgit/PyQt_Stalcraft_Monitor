@@ -2,6 +2,7 @@ import http.client
 import json
 import sys
 import datetime
+import sqlite3
 
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
@@ -69,13 +70,15 @@ class Sc_helper(QMainWindow):
         print('Я в stalc_handler')
         inputlots_find = ''
         inputlots = lots.lower().title()
-        with open('./ru/listing.json', 'r', encoding='UTF-8') as all_list:
-            # комнуздим из файла как записан тот или иной итем
-            records = json.load(all_list)
-        for i in records:  # Это чудо инжинерной мысли не трогать
-            if inputlots == i['name']['lines']['ru']:
-                inputlots_find = i['data'][-9:-5]
-                print(i['data'][-9:-5])
+
+        con = sqlite3.connect('sc_db')
+        cur = con.cursor()
+
+        result = cur.execute(f"""SELECT * FROM items
+                WHERE name = '{inputlots}'""").fetchall()
+        cur.close()
+        print(result)
+        inputlots_find = result[0][1]
         if not inputlots_find:
             self.err()
             return 'Error', 0
@@ -97,6 +100,20 @@ class Sc_helper(QMainWindow):
             money_lots.append(i['buyoutPrice'])
         print(money_lots, date_lots, sep='\n')
         print('Я вышел')
+        con = sqlite3.connect('sc_db')
+        cur = con.cursor()
+        for i in range(len(money_lots)):
+            try:
+                print(f"""INSERT INTO auction(id_product, money, date) VALUES({result[0][3]}, {money_lots[i]}, '{date_lots[i]}')""")
+                cur.execute(
+                    f"""INSERT INTO auction(id_product, money, date) VALUES({result[0][3]}, {money_lots[i]}, '{date_lots[i]}')""")
+                con.commit()
+                print('Ok')
+            except Exception:
+                print('error')
+                pass
+        cur.close()
+        print('saddasdasdasd')
         return date_lots, money_lots
 
 
