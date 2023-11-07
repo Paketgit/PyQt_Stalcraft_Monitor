@@ -9,27 +9,25 @@ def update_result():
         records = json.load(all_list)
 
     for i in records:
+        #print(f"""INSERT INTO items(name, game_code) VALUES('{i['name']['lines']['ru']}', '{i['data']}')""")
+        with open('./ru/'+i['data'], 'r', encoding='UTF-8') as f:
+            info = json.load(f)
         try:
-            #print(f"""INSERT INTO items(name, game_code) VALUES('{i['name']['lines']['ru']}', '{i['data']}')""")
-            with open('./ru/'+i['data'], 'r', encoding='UTF-8') as f:
-                info = json.load(f)
+            print(info['infoBlocks'][-1]['text']['lines']['ru'])
+            print(
+                f"""UPDATE items SET game_info = "{info['infoBlocks'][-1]['text']['lines']['ru']}" 
+                WHERE game_code = '{i['data'][-9:-5]}'""")
+            cur.execute(
+                f"""UPDATE items SET game_info = "{info['infoBlocks'][-1]['text']['lines']['ru']}" 
+                WHERE game_code = '{i['data'][-9:-5]}'""")
 
-            try:
-                print(info['infoBlocks'][-1]['text']['lines']['ru'])
-                print(
-                    f"""UPDATE items SET game_info = '{info['infoBlocks'][-1]['text']['lines']['ru']}' 
-                    WHERE name = '{i['data'][-9:-5]}'""")
-                cur.execute(
-                    f"""UPDATE items SET game_info = '{info['infoBlocks'][-1]['text']['lines']['ru']}' 
-                    WHERE name = '{i['data'][-9:-5]}'""")
-                con.commit()
-            except:
-                pass
-                f.close()
-        except sqlite3.IntegrityError:
-            print('NO')
+            print('Ok')
+        except Exception:
+            print('Error')
             pass
-        con.close()
+    con.commit()
+
+    con.close()
 
 
 update_result()

@@ -104,9 +104,11 @@ class Sc_helper(QMainWindow):
         cur = con.cursor()
         for i in range(len(money_lots)):
             try:
-                print(f"""INSERT INTO auction(id_product, money, date) VALUES({result[0][3]}, {money_lots[i]}, '{date_lots[i]}')""")
+                print(f"""INSERT INTO auction(id_product, money, date) 
+                    VALUES({result[0][3]}, {money_lots[i]}, '{date_lots[i]}')""")
                 cur.execute(
-                    f"""INSERT INTO auction(id_product, money, date) VALUES({result[0][3]}, {money_lots[i]}, '{date_lots[i]}')""")
+                    f"""INSERT INTO auction(id_product, money, date) 
+                    VALUES({result[0][3]}, {money_lots[i]}, '{date_lots[i]}')""")
                 con.commit()
                 print('Ok')
             except Exception:
