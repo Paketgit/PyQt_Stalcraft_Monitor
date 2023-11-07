@@ -10,6 +10,7 @@ from PIL import Image
 from PyQt5 import uic
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QMessageBox
+from os import remove
 
 import Auth
 
@@ -28,7 +29,8 @@ class Sc_helper(QMainWindow):
     def __get_grpah(self):
         lots = self.Input_item.toPlainText()
         print(lots)
-        x, y = self.stalc_handler(lots)
+        x, y, info = self.stalc_handler(lots)
+        print()
         if x == "Error":
             return 0
         self.aucList.setColumnCount(2)
@@ -41,7 +43,10 @@ class Sc_helper(QMainWindow):
                 print(x[i], y[i])
         except Exception:
             print('ОШИБКА')
-
+        try:
+            self.Info.setText(info)
+        except Exception:
+            print('Ошибка')
         print('-------------------------')
         print(x, y)
         plt.plot(x, y)
@@ -67,6 +72,10 @@ class Sc_helper(QMainWindow):
                              'Проверьте интернет соединение или написание лота', QMessageBox.Ok)
 
     def stalc_handler(self, lots):
+        try:
+            remove('Graph.png')
+        except Exception:
+            pass
         print('Я в stalc_handler')
         inputlots_find = ''
         inputlots = lots.lower().title()
@@ -78,10 +87,10 @@ class Sc_helper(QMainWindow):
                 WHERE name = '{inputlots}'""").fetchall()
         cur.close()
         print(result)
-        inputlots_find = result[0][1]
-        if not inputlots_find:
+        if not result:
             self.err()
-            return 'Error', 0
+            return 'Error', 0, 0
+        inputlots_find = result[0][1]
         print('Я прошёл файл')
         conn.request("GET", f"/RU/auction/{inputlots_find}/lots?limit=200&additional=true", headers=Auth.headers)
         print('conn ok')
@@ -115,8 +124,8 @@ class Sc_helper(QMainWindow):
                 print('error')
                 pass
         cur.close()
-        print('saddasdasdasd')
-        return date_lots, money_lots
+        print('saddasdasdasd', result)
+        return date_lots, money_lots, result[0][2]
 
 
 if __name__ == '__main__':
