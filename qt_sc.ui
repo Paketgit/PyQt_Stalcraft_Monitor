@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>728</width>
-    <height>567</height>
+    <width>752</width>
+    <height>551</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,116 +15,89 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(128, 0, 255, 255), stop:1 rgba(255, 124, 122, 255));
+</string>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <widget class="QTextEdit" name="Input_item">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QTableWidget" name="aucList"/>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <item>
-       <widget class="QLabel" name="Graph_time">
-        <property name="minimumSize">
-         <size>
-          <width>400</width>
-          <height>300</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>График цен</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="Info">
-        <property name="minimumSize">
-         <size>
-          <width>200</width>
-          <height>200</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Информация о предмете</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>728</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>Help</string>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>751</width>
+      <height>551</height>
+     </rect>
     </property>
-    <addaction name="actionReset_graph"/>
-    <addaction name="actionDelete_graph"/>
-    <addaction name="actionSaveData"/>
-    <addaction name="actionDelete_ALL_SavedData"/>
-    <addaction name="actionDeleteDataHistoryLot"/>
-    <addaction name="actionGetSavedLot"/>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="1">
+      <widget class="QGroupBox" name="chart">
+       <property name="title">
+        <string>GroupBox</string>
+       </property>
+       <widget class="QLabel" name="Graph_time">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>371</width>
+          <height>271</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>GrapLabel</string>
+        </property>
+       </widget>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QGroupBox" name="reference">
+       <property name="title">
+        <string>GroupBox</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" rowspan="2">
+      <widget class="QGroupBox" name="tableW">
+       <property name="title">
+        <string>GroupBox</string>
+       </property>
+       <widget class="QComboBox" name="comboBox">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>111</width>
+          <height>21</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QListView" name="Auclist">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>20</y>
+          <width>371</width>
+          <height>531</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="ResetGraphButt">
+        <property name="geometry">
+         <rect>
+          <x>354</x>
+          <y>0</y>
+          <width>21</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>R</string>
+        </property>
+       </widget>
+      </widget>
+     </item>
+    </layout>
    </widget>
-   <addaction name="menuHelp"/>
   </widget>
-  <action name="actionReset_graph">
-   <property name="text">
-    <string>Reset graph</string>
-   </property>
-  </action>
-  <action name="actionDelete_graph">
-   <property name="text">
-    <string>Delete graph</string>
-   </property>
-  </action>
-  <action name="actionSaveData">
-   <property name="text">
-    <string>SaveData</string>
-   </property>
-  </action>
-  <action name="actionDelete_ALL_SavedData">
-   <property name="text">
-    <string>Delete_ALL_SavedData</string>
-   </property>
-  </action>
-  <action name="actionDeleteDataHistoryLot">
-   <property name="text">
-    <string>DeleteDataHistoryLot</string>
-   </property>
-  </action>
-  <action name="actionGetSavedLot">
-   <property name="text">
-    <string>GetSavedLot</string>
-   </property>
-  </action>
  </widget>
  <resources/>
  <connections/>
