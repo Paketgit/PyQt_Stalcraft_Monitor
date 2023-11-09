@@ -87,12 +87,42 @@
      <string>Help</string>
     </property>
     <addaction name="actionReset_graph"/>
+    <addaction name="actionDelete_graph"/>
+    <addaction name="actionSaveData"/>
+    <addaction name="actionDelete_ALL_SavedData"/>
+    <addaction name="actionDeleteDataHistoryLot"/>
+    <addaction name="actionGetSavedLot"/>
    </widget>
    <addaction name="menuHelp"/>
   </widget>
   <action name="actionReset_graph">
    <property name="text">
     <string>Reset graph</string>
+   </property>
+  </action>
+  <action name="actionDelete_graph">
+   <property name="text">
+    <string>Delete graph</string>
+   </property>
+  </action>
+  <action name="actionSaveData">
+   <property name="text">
+    <string>SaveData</string>
+   </property>
+  </action>
+  <action name="actionDelete_ALL_SavedData">
+   <property name="text">
+    <string>Delete_ALL_SavedData</string>
+   </property>
+  </action>
+  <action name="actionDeleteDataHistoryLot">
+   <property name="text">
+    <string>DeleteDataHistoryLot</string>
+   </property>
+  </action>
+  <action name="actionGetSavedLot">
+   <property name="text">
+    <string>GetSavedLot</string>
    </property>
   </action>
  </widget>
