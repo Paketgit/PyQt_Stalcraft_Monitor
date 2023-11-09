@@ -50,10 +50,8 @@ class Sc_helper(QMainWindow, Ui_MainWindow):
                                 WHERE name = '{inputlots}'""").fetchall()
         info, id_product = result[0][2], result[0][3]
         result = result[0][3]
-        print('dfdsfsdffsdf')
         result = cur.execute(f"""SELECT * FROM auction
                                         WHERE id_product = {result}""").fetchall()
-        print(result)
         if not result:
             self.__sint_err()
             return 0
@@ -122,21 +120,17 @@ class Sc_helper(QMainWindow, Ui_MainWindow):
         title = QTableWidgetItem()
         title.setText('Дата окончания лота')
         self.aucList.setHorizontalHeaderItem(1, title)
-        print('1')
         try:
             self.aucList.setRowCount(len(y))
             for i in range(len(y)):
                 self.aucList.setItem(i - 1, 2, QTableWidgetItem(str(y[i])))
                 self.aucList.setItem(i, 1, QTableWidgetItem(str(datetime.datetime.strptime(x[i], '%Y-%m-%dT%H:%M:%SZ'))))
-                print(x[i], y[i])
         except Exception:
             print('ОШИБКА')
         try:
             self.Info.setText(info)
         except Exception:
             print('Ошибка')
-        print('-------------------------')
-        print(x, y)
         plt.plot(x, y)
         rcParams.update({'font.size': 5})
         plt.xlabel('Дата', fontsize=10)
@@ -173,7 +167,6 @@ class Sc_helper(QMainWindow, Ui_MainWindow):
         'Графика либо нету, либо системная ошибка ¯\_(ツ)_/¯', QMessageBox.Ok)
 
     def get_data(self, lots):
-        print('Я в stalc_handler')
         try:
             inputlots = lots.lower()
             inputlots = inputlots[0].upper() + inputlots[1:]
@@ -192,23 +185,19 @@ class Sc_helper(QMainWindow, Ui_MainWindow):
             self.__sint_err()
             return 'Error', 0, 0, 0
         inputlots_find = result[0][1]
-        conn.request("GET", f"/RU/auction/{inputlots_find}/lots?limit=200&additional=true", headers=Auth.headers)
-        print('conn ok')
+        conn.request("GET",
+                     f"/RU/auction/{inputlots_find}/"
+                     f"lots?limit=200&additional=true", headers=Auth.headers)
         rowdata = conn.getresponse().read().decode('utf-8')
         data = json.loads(rowdata)
         data = data['lots']
-        print("Я прошёл конн и получение данныых")
         data = sorted(data, key=self.__sortkey)
-        print(data)
         money_lots = []
         date_lots = []
         for i in data:
             date_lots.append(i['endTime'])
             money_lots.append(i['buyoutPrice'])
         print(money_lots, date_lots, sep='\n')
-        print('Я вышел')
-
-        print('saddasdasdasd', result)
         return date_lots, money_lots, result[0][2], result[0][3]
 
 
