@@ -1,0 +1,4 @@
+matplotlib>=3.8.0
+auth>=0.5.3
+Pillow>=10.1.0
+PyQt5>=5.15.10

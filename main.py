@@ -3,6 +3,7 @@ import json
 import sys
 import datetime
 import sqlite3
+import Auth
 
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
@@ -11,17 +12,17 @@ from PyQt5 import uic
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QMessageBox
 from os import remove
+from ui_qt_sc import Ui_MainWindow
 
-import Auth
 
 rcParams.update({'font.size': 10})
 conn = http.client.HTTPSConnection("eapi.stalcraft.net")
 
 
-class Sc_helper(QMainWindow):
+class Sc_helper(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('qt_sc.ui', self)  # Загружаем дизайн
+        self.setupUi(self)
         self.pixmap = QPixmap('Graph.png')
         self.Graph_time.setPixmap(self.pixmap)
         self.actionReset_graph.triggered.connect(self.__get_grpah)
