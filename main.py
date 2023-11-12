@@ -8,7 +8,6 @@ import Auth
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
 from PIL import Image
-from PyQt5 import uic
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QMessageBox
 from os import remove
@@ -44,10 +43,17 @@ class Sc_helper(QMainWindow, Ui_MainWindow):
 
     def upload_saved_data_lot(self):
         inputlots = self.__get_lot()
+        if not inputlots:
+            return 0
         con = sqlite3.connect('sc_db')
         cur = con.cursor()
+        print('sadfsdf', inputlots)
         result = cur.execute(f"""SELECT * FROM items
                                 WHERE name = '{inputlots}'""").fetchall()
+        print(result)
+        if not result:
+            self.__sint_err()
+            return 0
         info, id_product = result[0][2], result[0][3]
         result = result[0][3]
         result = cur.execute(f"""SELECT * FROM auction
@@ -55,6 +61,7 @@ class Sc_helper(QMainWindow, Ui_MainWindow):
         if not result:
             self.__sint_err()
             return 0
+        print(result)
         x, y = [], []
         for i in range(len(result)):
             x, y = result[i][2], result[i][1]
@@ -71,6 +78,8 @@ class Sc_helper(QMainWindow, Ui_MainWindow):
 
     def delete_saved_data(self):
         inputlots = self.__get_lot()
+        if not inputlots:
+            return 0
         con = sqlite3.connect('sc_db')
         cur = con.cursor()
         result = cur.execute(f"""SELECT * FROM items
@@ -123,6 +132,7 @@ class Sc_helper(QMainWindow, Ui_MainWindow):
         try:
             self.aucList.setRowCount(len(y))
             for i in range(len(y)):
+                print(y[i], x[i])
                 self.aucList.setItem(i - 1, 2, QTableWidgetItem(str(y[i])))
                 self.aucList.setItem(i, 1, QTableWidgetItem(str(datetime.datetime.strptime(x[i], '%Y-%m-%dT%H:%M:%SZ'))))
         except Exception:
@@ -172,8 +182,8 @@ class Sc_helper(QMainWindow, Ui_MainWindow):
             inputlots = inputlots[0].upper() + inputlots[1:]
         except Exception:
             self.__sint_err()
-            return 'Error', 0, 0
-
+            return 'Error', 0, 0, 0
+        print('chek end')
         con = sqlite3.connect('sc_db')
         cur = con.cursor()
 
