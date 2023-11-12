@@ -47,10 +47,8 @@ class Sc_helper(QMainWindow, Ui_MainWindow):
             return 0
         con = sqlite3.connect('sc_db')
         cur = con.cursor()
-        print('sadfsdf', inputlots)
         result = cur.execute(f"""SELECT * FROM items
                                 WHERE name = '{inputlots}'""").fetchall()
-        print(result)
         if not result:
             self.__sint_err()
             return 0
@@ -61,7 +59,6 @@ class Sc_helper(QMainWindow, Ui_MainWindow):
         if not result:
             self.__sint_err()
             return 0
-        print(result)
         x, y = [], []
         for i in range(len(result)):
             x, y = result[i][2], result[i][1]
@@ -100,14 +97,10 @@ class Sc_helper(QMainWindow, Ui_MainWindow):
         cur = con.cursor()
         for i in range(len(money)):
             try:
-                print(f"""INSERT INTO auction(id_product, money, date) 
-                            VALUES({id_product}, {money[i]}, '{date[i]}')""")
                 cur.execute(
                     f"""INSERT INTO auction(id_product, money, date) 
                             VALUES({id_product}, {money[i]}, '{date[i]}')""")
-                print('Ok')
             except Exception:
-                print('error')
                 pass
         con.commit()
         cur.close()
@@ -132,15 +125,14 @@ class Sc_helper(QMainWindow, Ui_MainWindow):
         try:
             self.aucList.setRowCount(len(y))
             for i in range(len(y)):
-                print(y[i], x[i])
                 self.aucList.setItem(i - 1, 2, QTableWidgetItem(str(y[i])))
                 self.aucList.setItem(i, 1, QTableWidgetItem(str(datetime.datetime.strptime(x[i], '%Y-%m-%dT%H:%M:%SZ'))))
         except Exception:
-            print('ОШИБКА')
+            pass
         try:
             self.Info.setText(info)
         except Exception:
-            print('Ошибка')
+            pass
         plt.plot(x, y)
         rcParams.update({'font.size': 5})
         plt.xlabel('Дата', fontsize=10)
@@ -183,21 +175,17 @@ class Sc_helper(QMainWindow, Ui_MainWindow):
         except Exception:
             self.__sint_err()
             return 'Error', 0, 0, 0
-        print('chek end')
         con = sqlite3.connect('sc_db')
         cur = con.cursor()
 
         result = cur.execute(f"""SELECT * FROM items
                 WHERE name = '{inputlots}'""").fetchall()
         cur.close()
-        print(result, inputlots)
         if not result:
             self.__sint_err()
             return 'Error', 0, 0, 0
         inputlots_find = result[0][1]
-        conn.request("GET",
-                     f"/RU/auction/{inputlots_find}/"
-                     f"lots?limit=200&additional=true", headers=Auth.headers)
+        conn.request("GET", f"/RU/auction/{inputlots_find}/lots?limit=200&additional=true", headers=Auth.headers)
         rowdata = conn.getresponse().read().decode('utf-8')
         data = json.loads(rowdata)
         data = data['lots']
@@ -207,7 +195,6 @@ class Sc_helper(QMainWindow, Ui_MainWindow):
         for i in data:
             date_lots.append(i['endTime'])
             money_lots.append(i['buyoutPrice'])
-        print(money_lots, date_lots, sep='\n')
         return date_lots, money_lots, result[0][2], result[0][3]
 
 
